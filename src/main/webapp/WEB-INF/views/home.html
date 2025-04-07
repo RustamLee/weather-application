@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Weather App</title>
+    <title>Главная</title>
 </head>
 <body>
-<h1>Hello from Weather App!</h1>
+<h1>Добро пожаловать!</h1>
+<p th:if="${username != null}">
+    Привет, <span th:text="${username}"></span>!
+</p>
+<p th:if="${username == null}">
+    Вы не вошли в систему.
+</p>
 </body>
 </html>
+
