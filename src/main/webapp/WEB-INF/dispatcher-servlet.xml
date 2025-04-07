@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="https://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="https://www.springframework.org/schema/context"
+       xmlns:mvc="https://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+           https://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+           https://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+           https://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- Сканируем контроллеры и прочие компоненты -->
+    <context:component-scan base-package="org.example.weather"/>
+
+    <!-- Включаем аннотации Spring MVC -->
+    <mvc:annotation-driven/>
+
+    <!-- Настройка статических ресурсов -->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+
+    <!-- Настройка Thymeleaf -->
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <property name="enableSpringELCompiler" value="true"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+
+</beans>
