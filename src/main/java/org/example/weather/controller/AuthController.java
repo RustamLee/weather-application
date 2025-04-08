@@ -1,6 +1,7 @@
 package org.example.weather.controller;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.weather.model.User;
 import org.example.weather.session.SessionManager;
@@ -70,6 +71,20 @@ public class AuthController {
         return "redirect:/"; // после логина на главную
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        String sessionId = SessionManager.getSessionIdFromRequest(request);
+        if (sessionId != null) {
+            SessionManager.removeSession(sessionId);
+
+            // Удаляем cookie
+            Cookie cookie = new Cookie("SESSIONID", "");
+            cookie.setPath("/weather_app"); // должен совпадать с путём, где она была установлена
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
+        return "redirect:/login";
+    }
 
 
 
